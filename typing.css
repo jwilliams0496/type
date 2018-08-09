@@ -1,0 +1,247 @@
+html {
+    height: 100%;
+    background: linear-gradient(to bottom, #ffffff, #a8a8a8);
+    background-attachment: fixed;
+    margin: 0;
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
+    font-size: 25px;
+}
+
+h2 {
+    font-family: Tahoma, Geneva, sans-serif;
+    color: #ffffff;
+}
+
+p {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+}
+
+a {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+small {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 10px;
+    color: #ffffff;
+}
+
+optgroup {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 20px;
+    color: #979797;
+}
+
+/***************
+header, body, and footer
+***************/
+#header {
+    position: relative;
+    border-top: 4px solid #23792a;
+    border-bottom: 4px solid #23792a;
+    height: 110px;
+}
+
+#body {
+    position: relative;
+    height: 680px;
+    padding: 50px;
+}
+
+#footer {
+    position: relative;
+    border-top: 4px solid #23792a;
+    border-bottom: 4px solid #23792a;
+    height: 150px;
+}
+
+td {
+    text-align: center; 
+    vertical-align: middle;
+}
+
+#logo {
+    height: 60px;
+    width: 180px;
+    position: absolute;
+    left: 1vw;
+    top: 2vw;
+}
+
+#refresh_button {
+    background: #777777;
+    height: 40px;
+    width: 40px;
+    border-radius: 15px;
+    border: solid 2px #000000;
+    float: right;
+}
+
+#refresh_button:hover {
+    background: #444444;
+    cursor: pointer;
+}
+
+#time {
+    position: relative;
+    background: #6181c7;
+    color: #ffffff;
+    border-radius: 15px;
+    width: 100%;
+    padding: 1%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+}
+
+/************
+box set (header)
+************/
+.boxSet,
+.box {
+    position: relative;
+    border-radius: 15px;
+    top: 10px;
+    left: 200px;
+    width: 1000px
+}
+
+.box {
+    background: #2d9936;
+    float: left;
+    margin-top: 25px;
+    text-align: center;
+    width: 100px;
+}
+
+.box:hover {
+    background: #23792a;
+    cursor: pointer;
+}
+
+/************
+box set 2 (body)
+************/
+.boxSet2,
+.box2 {
+    position: relative;
+    border-radius: 4px;
+}
+
+.box2 {
+    background: #2d9936;
+    border-left: 5px solid #1e6323;
+    border-bottom: 5px solid #1e6323;
+    float: right;
+    margin: 1.858736059%;
+    padding: 10px 0;
+    text-align: center;
+    width: 16%;
+}
+
+.box2:hover {
+    background: #0c3f10;
+    cursor: pointer;
+}
+
+/**************
+test
+**************/
+#testContainer,
+testsSelect {
+    position: relative;
+    border-radius: 20px;
+}
+
+#wordsContainer,
+#resultsContainer {
+    float: top;
+    height: 100px;
+    padding: 30px;
+    width: 800px;
+    border-left: 30px solid #616161;
+    border-right: 30px solid #616161;
+    border-radius: 3px;
+    background: #ffffff;
+    margin: auto;
+    text-align: center;
+}
+
+#resultsContainer {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 150px;
+    color: #2d9936
+}
+
+#userInput {
+    float:top;
+    height: 50px;
+    padding: 30px;
+    width: 800px;
+    border-left: 30px solid #474747;
+    border-right: 30px solid #474747;
+    border-radius: 3px;
+    background: #2d9936;
+    margin: auto;
+    text-align: center;
+}
+
+.textBox {
+    position: relative;
+    width: 500px;
+    font-size: 30px;
+    margin: 0 auto;
+    border-radius: 10px;
+    float: right;
+}
+
+/************
+words
+************/
+
+#row1,
+#word0,
+#word1,
+#word2,
+#word3,
+#word4,
+#word5,
+#word6,
+#word7,
+#word8,
+#word9 {
+    text-align: center;
+    width: 100%;
+}
+
+#word0,
+#word1,
+#word2,
+#word3,
+#word4,
+#word5,
+#word6,
+#word7,
+#word8,
+#word9 {
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin: .3%;
+}
+
+#row2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+}

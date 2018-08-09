@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<!-- Typing test -->
+
+<html>
+
+<head>
+
+    <title>Type</title>
+    <link rel="stylesheet" type="text/css" href="typing.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="typing.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+
+    <div id="id4angular" ng-app="mainApp" ng-controller="testsController">
+        <!- HEADER ->
+        <div id="header">
+
+            <img id="logo" src="img/logo.png"></img>
+
+            <div id="boxSet">
+                <figure class="box">
+                    <p>1 Minute</p>
+                </figure>
+
+                <figure class="box">
+                    <p>2 Minute</p>
+                </figure>
+
+                <figure class="box">
+                    <p>5 Minute</p>
+                </figure>
+
+            </div>
+        </div>
+
+        <!- BODY ->
+        <div id="body">
+
+            <!-- Put test here -->
+            <div id="testContainer">
+                <div id="wordsContainer" ng-hide="hideWords">
+                    <div id="row1">
+                        <div id="word0" ng-style="word0">
+                            {{wordsToType[0]}}
+                        </div>
+                        <div id="word1" ng-style="word1">
+                            {{wordsToType[1]}}
+                        </div>
+                        <div id="word2" ng-style="word2">
+                            {{wordsToType[2]}}
+                        </div>
+                        <div id="word3" ng-style="word3">
+                            {{wordsToType[3]}}
+                        </div>
+                        <div id="word4" ng-style="word4">
+                            {{wordsToType[4]}}
+                        </div>
+                        <div id="word5" ng-style="word5">
+                            {{wordsToType[5]}}
+                        </div>
+                        <div id="word6" ng-style="word6">
+                            {{wordsToType[6]}}
+                        </div>
+                        <div id="word7" ng-style="word7">
+                            {{wordsToType[7]}}
+                        </div>
+                        <div id="word8" ng-style="word8">
+                            {{wordsToType[8]}}
+                        </div>
+                        <div id="word9" ng-style="word9">
+                            {{wordsToType[9]}}
+                        </div>
+                    </div>
+
+                    <div id="row2">
+                        <br>{{wordsToType2}}
+                    </div>
+
+                </div>
+
+                <div id="resultsContainer" ng-hide="hideResults">
+                    {{wpm}} WPM
+                </div>
+
+                <div id="userInput">
+                    <div style="padding-right: 5%; padding-left:3%; padding-top: 1%; width: 100px; float: right;">
+                        <div id="time">
+                            {{time | timer}}
+                        </div>
+                    </div>
+
+                    <div style="padding-top: .5%; padding-left: 3%; float: right;">
+                        <img id="refresh_button" src="img/Refresh.png" ng-click="resetTest()"></img>
+                    </div>
+
+                    <div style="padding-top: 5px; float: left;">
+                        <input type="text" ng-trim="false" ng-model="userInput" ng-keyup="inputWord()" class="textBox">
+                    </div>
+                </div>
+            </div>
+
+            <div id="boxSet2">
+                <a href="STUB">
+                    <figure class="box2">
+                        <p>Generate Certificate</p>
+                    </figure>
+                </a>
+            </div>
+        </div>
+
+        <script>
+
+            // Angularjs Controller
+            var mainApp = angular.module("mainApp", []);
+
+            // Time factory
+            mainApp.filter('timer', function () {
+                return function (x) {
+                    var min = Math.floor(x / 60);
+                    var sec = x % 60;
+                    var txt = "";
+
+                    txt += min.toString();
+                    txt += ":";
+
+                    if (sec < 10) {
+                        txt += "0";
+                    }
+
+                    txt += sec.toString();
+
+                    return txt;
+                };
+            });
+
+            mainApp.controller('testsController', function ($scope, $timeout) {
+
+                // User input
+                $scope.userInput = "";
+                // Array of user Inputs
+                $scope.inputArr = [];
+                // Words per minute (# of words typed - # of words mispelled)
+                $scope.wpm = 0;
+                // Slice coordinates (first ten words)
+                $scope.index1 = 0;
+                $scope.index2 = 10;
+                // Array of 1000 most common english words shuffled
+                $scope.words = getWords();
+                // Array of words to type
+                $scope.wordsToType = words.slice($scope.index1, $scope.index2);
+                // Next row of words to type
+                $scope.wordsToType2 = words.slice($scope.index2, ($scope.index2 + 10)).toString().replace(/,/g, " ");
+                // Number of words typed
+                $scope.wordsTyped = 0;
+                // hide words
+                $scope.hideWords = false;
+                // hide results
+                $scope.hideResults = true;
+                // test active
+                $scope.testActive = false;
+                // time (60 seconds)
+                $scope.time = 60;
+                // bool is test has been reset
+                $scope.resetBool = true;
+                // global timer
+                var timer = function () {
+                    if ($scope.time > 0) {
+                        $scope.time--;
+                        $scope.oneSecond = $timeout(timer, 1000);
+                    }
+                }
+
+                /*******************
+                 * default word background colors
+                 *******************/
+                $scope.word0 = { background: 'white' };
+                $scope.word1 = { background: 'white' };
+                $scope.word2 = { background: 'white' };
+                $scope.word3 = { background: 'white' };
+                $scope.word4 = { background: 'white' };
+                $scope.word5 = { background: 'white' };
+                $scope.word6 = { background: 'white' };
+                $scope.word7 = { background: 'white' };
+                $scope.word8 = { background: 'white' };
+                $scope.word9 = { background: 'white' };
+
+                // Hide test, show results
+                $scope.endTest = function () {
+                    // remove mispells from count
+                    var i;
+                    for (i = 0; i < $scope.inputArr.length; i++) {
+                        if ($scope.words[i] === $scope.inputArr[i]) {
+                            $scope.wpm++;
+                        }
+
+                    }
+                    $scope.testActive = false;
+                    $scope.hideWords = true;
+                    $scope.hideResults = false;
+                    $scope.resetBool = false;
+                }
+
+                $scope.resetTest = function () {
+
+                    // reset all variables to default, and re shuffle the words
+                    $scope.words = getWords();
+                    $scope.wordsTyped = 0;
+                    $scope.wordsToType = words.slice($scope.index1, $scope.index2);
+                    $scope.wordsToType2 = words.slice($scope.index2, ($scope.index2 + 10)).toString().replace(/,/g, " ");
+                    $scope.index1 = 0;
+                    $scope.index2 = 10;
+                    $scope.inputArr = [];
+                    $scope.userInput = "";
+                    $scope.testActive = false;
+                    $scope.hideWords = false;
+                    $scope.hideResults = true;
+                    $scope.time = 60;
+                    $scope.resetBool = true;
+                    $timeout.cancel($scope.timer);
+                    $timeout.cancel($scope.finishTimer);
+                    $timeout.cancel($scope.oneSecond);
+
+
+                    // Reset background colors to default
+                    $scope.word0 = { background: 'white' };
+                    $scope.word1 = { background: 'white' };
+                    $scope.word2 = { background: 'white' };
+                    $scope.word3 = { background: 'white' };
+                    $scope.word4 = { background: 'white' };
+                    $scope.word5 = { background: 'white' };
+                    $scope.word6 = { background: 'white' };
+                    $scope.word7 = { background: 'white' };
+                    $scope.word8 = { background: 'white' };
+                    $scope.word9 = { background: 'white' };
+                }
+
+                $scope.clearInput = function () {
+                    // only push a word onto the input array if it isn't empty
+                    if ($scope.userInput.trim().length != 0 && $scope.testActive) {
+                        $scope.inputArr.push($scope.userInput.trim());
+                        $scope.wordsTyped++;
+                    }
+
+
+                    $scope.userInput = "";
+
+                    if ($scope.wordsTyped % 10 === 0 && $scope.testActive) {
+                        $scope.index1 = $scope.index2;
+                        $scope.index2 += 10;
+
+                        $scope.wordsToType = words.slice($scope.index1, $scope.index2);
+                        $scope.wordsToType2 = words.slice($scope.index2, ($scope.index2 + 10)).toString().replace(/,/g, " ");
+
+                        // Reset background colors
+                        $scope.word0 = { background: 'white' };
+                        $scope.word1 = { background: 'white' };
+                        $scope.word2 = { background: 'white' };
+                        $scope.word3 = { background: 'white' };
+                        $scope.word4 = { background: 'white' };
+                        $scope.word5 = { background: 'white' };
+                        $scope.word6 = { background: 'white' };
+                        $scope.word7 = { background: 'white' };
+                        $scope.word8 = { background: 'white' };
+                        $scope.word9 = { background: 'white' };
+                    }
+
+                    //$scope.$apply();
+                }
+
+                $scope.inputWord = function () {
+                    if ($scope.userInput.length != "" && !$scope.testActive && $scope.resetBool) {
+                        $scope.startTest();
+                    }
+
+                    if ($scope.userInput.indexOf(" ") != -1) {
+                        $scope.clearInput();
+                    }
+
+                    $scope.checkWord();
+
+                }
+
+                $scope.startTest = function () {
+                    $scope.finishTimer = $timeout($scope.endTest, 60000);
+                    $scope.testActive = true;
+                    $scope.timer = $timeout(timer, 1000)
+                }
+
+                $scope.checkWord = function () {
+                    // Change color of word typed
+                    if ($scope.wordsTyped % 10 == 0) {
+                        if ($scope.checkCurSpell($scope.wordsToType[0], $scope.userInput)) {
+                            $scope.word0 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word0 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 1) {
+                        if ($scope.checkCurSpell($scope.wordsToType[1], $scope.userInput)) {
+                            $scope.word1 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word1 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 2) {
+                        if ($scope.checkCurSpell($scope.wordsToType[2], $scope.userInput)) {
+                            $scope.word2 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word2 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 3) {
+                        if ($scope.checkCurSpell($scope.wordsToType[3], $scope.userInput)) {
+                            $scope.word3 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word3 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 4) {
+                        if ($scope.checkCurSpell($scope.wordsToType[4], $scope.userInput)) {
+                            $scope.word4 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word4 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 5) {
+                        if ($scope.checkCurSpell($scope.wordsToType[5], $scope.userInput)) {
+                            $scope.word5 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word5 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 6) {
+                        if ($scope.checkCurSpell($scope.wordsToType[6], $scope.userInput)) {
+                            $scope.word6 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word6 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 7) {
+                        if ($scope.checkCurSpell($scope.wordsToType[7], $scope.userInput)) {
+                            $scope.word7 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word7 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 8) {
+                        if ($scope.checkCurSpell($scope.wordsToType[8], $scope.userInput)) {
+                            $scope.word8 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word8 = { background: '#ff575794' };
+                        }
+                    }
+
+                    if ($scope.wordsTyped % 10 == 9) {
+                        if ($scope.checkCurSpell($scope.wordsToType[9], $scope.userInput)) {
+                            $scope.word9 = { background: '#2d993696' };
+                        }
+                        else {
+                            $scope.word9 = { background: '#ff575794' };
+                        }
+                    }
+
+                    //$scope.$apply();
+                }
+
+                $scope.checkCurSpell = function (totalWord, wordBeingTyped) {
+                    var i;
+                    for (i = 0; i < wordBeingTyped.length; i++) {
+                        if (totalWord[i] != wordBeingTyped[i]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+            });
+        </script>
+
+</body>
+
+</html>
