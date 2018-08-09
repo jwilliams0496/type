@@ -212,6 +212,8 @@
                     // reset all variables to default, and re shuffle the words
                     $scope.words = getWords();
                     $scope.wordsTyped = 0;
+                    $scope.wordsToType = [];
+                    $scope.wordsToType2 = [];
                     $scope.wordsToType = words.slice($scope.index1, $scope.index2);
                     $scope.wordsToType2 = words.slice($scope.index2, ($scope.index2 + 10)).toString().replace(/,/g, " ");
                     $scope.index1 = 0;
@@ -292,6 +294,33 @@
                     $scope.testActive = true;
                     $scope.timer = $timeout(timer, 1000)
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 $scope.checkWord = function () {
                     // Change color of word typed
